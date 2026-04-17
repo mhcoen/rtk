@@ -3335,9 +3335,11 @@ mod tests {
 
     #[test]
     fn test_rewrite_node_modules_bin() {
+        // Upstream collapses "vitest run" to "vitest" (run is vitest's default),
+        // so the "run" arg is absorbed by the matching prefix. RTK_BIN is still preserved.
         assert_eq!(
-            rewrite_command("./node_modules/.bin/vitest run", &[]),
-            Some("RTK_BIN='./node_modules/.bin/vitest' rtk vitest run".into())
+            rewrite_command("./node_modules/.bin/vitest --watch", &[]),
+            Some("RTK_BIN='./node_modules/.bin/vitest' rtk vitest --watch".into())
         );
     }
 
